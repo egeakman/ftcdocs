@@ -98,7 +98,11 @@ latex_additional_files = ["assets/Latex_Footer_FTC.png", "_static/RTX.png", 'ass
 latex_use_xindy = False
 
 gitInfo = gitinfo.get_git_info(dir="../../.")
-gitInfo = {'commit': "N/A", 'refs': 'N/A', 'author_date': 'N/A', 'author': 'N/A'} if gitInfo==None else gitInfo
+gitInfo = (
+    {'commit': "N/A", 'refs': 'N/A', 'author_date': 'N/A', 'author': 'N/A'}
+    if gitInfo is None
+    else gitInfo
+)
 
 latex_elements = {
     "papersize": "letterpaper",
@@ -279,7 +283,7 @@ linkcheck_ignore = [
 ]
 
 latex_documents = [
-    (master_doc, output_name + '.tex', project, author, "manual"),
+    (master_doc, f'{output_name}.tex', project, author, "manual")
 ]
 
 if(os.environ.get("BOOKLETS_BUILD") == "true"):
@@ -308,14 +312,14 @@ def setup(app):
 cookiebanner_enabled = False
 
 # Configure for local official-esque builds
-if(os.environ.get("LOCAL_DOCS_BUILD") == "true"):
+if (os.environ.get("LOCAL_DOCS_BUILD") == "true"):
     html_context = dict()
     html_context['display_lower_left'] = True
 
     html_context['current_version'] = version
     html_context['version'] = version
 
-    html_context['downloads'] = list()
+    html_context['downloads'] = []
     pdfname = str(urlparse.urlparse(os.environ.get("FTCDOCS_URL", default="")).path) + output_name + ".pdf"
     html_context['downloads'].append(('PDF', str(pdfname)))
 

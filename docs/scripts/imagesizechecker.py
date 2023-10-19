@@ -25,11 +25,7 @@ def verify_image_size(file, max_size, excluded_files):
         file_size = file.stat().st_size
 
         if not file_size <= max_size:
-            print(
-                "FILE SIZE IS TOO LARGE   File Size: {}  Path: {}".format(
-                    file_size, file.path
-                )
-            )
+            print(f"FILE SIZE IS TOO LARGE   File Size: {file_size}  Path: {file.path}")
             return False
 
     return True
@@ -65,8 +61,8 @@ def main():
     args = vars(arg_parser.parse_args())
 
     print("Running SizeCheck")
-    print("Specified Size: {}KB".format(args["max-size"]))
-    print("Scan Directory: {}".format(args["path"]))
+    print(f'Specified Size: {args["max-size"]}KB')
+    print(f'Scan Directory: {args["path"]}')
 
     # Gets excluded files from conf.py
     exclude_file = args["exclude_file"]
@@ -76,9 +72,9 @@ def main():
                 clean_module_path(exclude_file)
             ).IMAGE_SIZE_EXCLUSIONS
         )
-        print("Exclusion Config: {}".format(exclude_file))
+        print(f"Exclusion Config: {exclude_file}")
     else:
-        excluded_files = list()
+        excluded_files = []
 
     # Check how many images are too big
     oversized_count = iterate_image_sizes(
@@ -86,11 +82,9 @@ def main():
     )
 
     if oversized_count == 0:
-        print("\nNo files bigger than {}KB have been found.".format(args["max-size"]))
+        print(f'\nNo files bigger than {args["max-size"]}KB have been found.')
     else:
-        print(
-            "\n{} files are bigger than {}KB.".format(oversized_count, args["max-size"])
-        )
+        print(f'\n{oversized_count} files are bigger than {args["max-size"]}KB.')
         exit(1)
 
 
